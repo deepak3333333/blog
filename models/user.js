@@ -41,6 +41,24 @@ userSchema.pre("save",function(next){
     user.password=hashPassword
 next()
 })
+userSchema.static("matchedPassword",async function(email,password){
+    const user= await this.findOne({email})
+   
+    
+    if(!user) throw new Error("User not found")
+
+    var salt=user.salt
+    const hashpassword=user.password
+    const userProvidedHashed=createHmac("sha256",salt).update(password).digest("hex")
+    if(hashpassword!==userProvidedHashed) throw new Error("Password not matched")
+    return {...user._doc,password:undefined,salt:undefined}
+   
+
+
+
+
+    
+})
 
 const User=mongoose.model("User",userSchema)
 
