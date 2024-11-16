@@ -15,12 +15,17 @@ router.get("/signin",(req,res)=>{
 router.post("/signin",async(req,res)=>{
 
     const {email,password}=req.body
-   const user= await User.matchedPassword(email,password)
-   if(user){
-    console.log(user);
-    
-       return res.redirect("/")
-   }
+    try{
+        const token= await User.matchedPasswordGenrateToken(email,password)
+        return res.cookie("usertoken",token).redirect("/")
+    }
+    catch(error){
+        return res.render('signin',{error:"user id and password do not matchen"});
+
+
+    }
+  
+   
 
    
     

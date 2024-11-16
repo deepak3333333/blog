@@ -1,6 +1,7 @@
 const express=require("express")
 const app=express()
 
+
 const userRouter=require("./routers/user")
 const { default: mongoose } = require("mongoose")
 app.use(express.urlencoded({extended:false}))
@@ -21,5 +22,5 @@ app.get("/",(req,res)=>{
 })
 
 app.listen(230,()=>{
-    console.log("server is running on port 23")
+    console.log("server is running on port 230")
 })
